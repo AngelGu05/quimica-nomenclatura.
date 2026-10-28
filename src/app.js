@@ -5,6 +5,7 @@ const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;'
 const fmtF = s => esc(s).replace(/([A-Za-z\)\]])(\d+)/g, '$1<sub>$2</sub>');
 const ionH = (f, q, sign) => `${fmtF(f)}<sup>${q}${sign}</sup>`;
 const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const ptile = (num, sym, label, color) => `<span class="ptile" aria-hidden="true"${color ? ` style="--c: var(--${color})"` : ''}><i>${num}</i><b>${sym}</b><small>${label}</small></span>`;
 const fx = f => `<span class="fx">${fmtF(f)}</span>`;
 
 /* ---------- Progreso guardado en este dispositivo ---------- */
@@ -58,6 +59,7 @@ const VIEWS = { inicio: viewHome, iones: viewIons, teoria: viewTheory, practica:
 function route() {
   const h = (location.hash || '#inicio').slice(1);
   const v = VIEWS[h] ? h : 'inicio';
+  document.body.dataset.sec = v;
   $$('.nav a').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + v ? 'page' : 'false'));
   VIEWS[v]();
   window.scrollTo(0, 0);
@@ -82,26 +84,27 @@ function viewHome() {
     <p class="eyebrow">Química inorgánica · guía 2026</p>
     <h1>Nomenclatura química</h1>
     <p class="lede">Aprende los iones, repasa las reglas de cada sistema y practica nombrar y formular con ejercicios de tus hojas y otros nuevos.</p>
+    <div class="hero-tiles">${ptile(1, 'H', 'Hidrógeno', 'teo')}${ptile(6, 'C', 'Carbono', 'ink')}${ptile(8, 'O', 'Oxígeno', 'ion')}${ptile(11, 'Na', 'Sodio', 'vul')}${ptile(16, 'S', 'Azufre', 'gold')}${ptile(17, 'Cl', 'Cloro', 't2')}${ptile(26, 'Fe', 'Hierro', 'cat')}</div>
   </section>
   <section class="tiles">
-    <a class="tile" href="#iones">
-      <span class="tile-k">Iones</span>
+    <a class="tile" href="#iones" style="--c: var(--ion)">
+      <span class="tile-head">${ptile(1, 'Io', 'Iones', 'ion')}<span class="tile-k">Iones</span></span>
       <span class="tile-big">${ik}<small>/${it}</small></span>
       <span class="tile-sub">tarjetas que ya te sabes</span>
       <span class="mini-tiles" aria-hidden="true"><b class="cat">Fe<sup>3+</sup></b><b class="an">SO<sub>4</sub><sup>2−</sup></b><b class="cat">NH<sub>4</sub><sup>1+</sup></b></span>
     </a>
-    <a class="tile" href="#teoria">
-      <span class="tile-k">Teoría</span>
+    <a class="tile" href="#teoria" style="--c: var(--teo)">
+      <span class="tile-head">${ptile(2, 'Te', 'Teoría', 'teo')}<span class="tile-k">Teoría</span></span>
       <span class="tile-big">3<small> temas</small></span>
       <span class="tile-sub">Binarios · Oxosales, oxoácidos e hidróxidos · Sales ácidas, básicas, dobles e hidratadas</span>
     </a>
-    <a class="tile" href="#practica">
-      <span class="tile-k">Práctica</span>
+    <a class="tile" href="#practica" style="--c: var(--prac)">
+      <span class="tile-head">${ptile(3, 'Pr', 'Práctica', 'prac')}<span class="tile-k">Práctica</span></span>
       <div class="bars">${[1, 2, 3].map(temaRow).join('')}</div>
       <span class="tile-sub">aciertos por tema</span>
     </a>
-    <a class="tile" href="#vulgares">
-      <span class="tile-k">Nombres vulgares</span>
+    <a class="tile" href="#vulgares" style="--c: var(--vul)">
+      <span class="tile-head">${ptile(4, 'Nv', 'Vulgares', 'vul')}<span class="tile-k">Nombres vulgares</span></span>
       <span class="tile-big">${vk}<small>/${vt}</small></span>
       <span class="tile-sub">cal viva, leche de magnesia, aceite de vitriolo…</span>
     </a>
@@ -195,8 +198,8 @@ function viewIons() {
   const cards = ionState.sub === '__all' ? Object.values(d.subs).flat() : d.subs[ionState.sub];
   view().innerHTML = `
   <section class="page-head">
-    <p class="eyebrow">Sección 1</p><h1>Iones</h1>
-    <p class="lede">Las cargas de la hoja “Números de oxidación”. Sin ellas no se puede nombrar ni formular nada.</p>
+    <div><p class="eyebrow">Sección 1</p><h1>Iones</h1>
+    <p class="lede">Las cargas de la hoja “Números de oxidación”. Sin ellas no se puede nombrar ni formular nada.</p></div>${ptile(1, 'Io', 'Iones')}
   </section>
   <div class="seg" role="tablist">
     ${Object.entries(DECKS).map(([k, v]) => `<button role="tab" aria-selected="${k === ionState.deck}" data-deck="${k}">${v.label}</button>`).join('')}
@@ -410,11 +413,11 @@ let theoryTab = 'base';
 function viewTheory() {
   const tab = THEORY_TABS.find(t => t[0] === theoryTab);
   view().innerHTML = `
-  <section class="page-head"><p class="eyebrow">Sección 2</p><h1>Teoría</h1>
-    <p class="lede">Resumen de tu guía: cómo reconocer cada grupo funcional y el patrón para nombrarlo en cada sistema.</p></section>
+  <section class="page-head"><div><p class="eyebrow">Sección 2</p><h1>Teoría</h1>
+    <p class="lede">Resumen de tu guía: cómo reconocer cada grupo funcional y el patrón para nombrarlo en cada sistema.</p></div>${ptile(2, 'Te', 'Teoría')}</section>
   <div class="tabs" role="tablist">${THEORY_TABS.map(([k, l]) => `<button role="tab" aria-selected="${k === theoryTab}" data-t="${k}">${l}</button>`).join('')}</div>
   <p class="tab-sub muted">${tab[3]}</p>
-  <div class="theory">${tab[2]()}</div>
+  <div class="theory" data-tema="${theoryTab}">${tab[2]()}</div>
   ${theoryTab !== 'base' ? `<div class="cta-row"><a class="btn primary" href="#practica" data-go-tema="${theoryTab.slice(1)}">Practicar el tema ${theoryTab.slice(1)}</a></div>` : ''}`;
   $$('[data-t]').forEach(b => b.onclick = () => { theoryTab = b.dataset.t; viewTheory(); });
   const go = $('[data-go-tema]'); if (go) go.onclick = () => { pracCfg.tema = go.dataset.goTema; };
@@ -460,8 +463,8 @@ function renderSetup() {
   const temas = [['1', 'Binarios', 'Hidrácidos, hidruros, óxidos, peróxidos, sales binarias'], ['2', 'Oxosales, oxoácidos e hidróxidos', 'Los ternarios'],
     ['3', 'Sales ácidas, básicas, dobles e hidratadas', 'El tema que faltaba'], ['mix', 'Todo mezclado', 'Los tres temas juntos']];
   view().innerHTML = `
-  <section class="page-head"><p class="eyebrow">Sección 3</p><h1>Práctica</h1>
-    <p class="lede">Como en tus hojas: te doy la fórmula y el sistema (o el nombre) y tú completas lo demás, incluido el grupo funcional.</p></section>
+  <section class="page-head"><div><p class="eyebrow">Sección 3</p><h1>Práctica</h1>
+    <p class="lede">Como en tus hojas: te doy la fórmula y el sistema (o el nombre) y tú completas lo demás, incluido el grupo funcional.</p></div>${ptile(3, 'Pr', 'Práctica')}</section>
   <div class="setup">
     <fieldset><legend>Tema</legend><div class="opt-grid">
       ${temas.map(([k, t, s]) => { const p = pct(store.prac[k]); return `<button class="opt" aria-pressed="${pracCfg.tema === k}" data-tema="${k}">
@@ -632,8 +635,8 @@ function renderResults() {
 let vulgTab = 'cards', vq = null;
 function viewVulg() {
   view().innerHTML = `
-  <section class="page-head"><p class="eyebrow">Sección 4</p><h1>Nombres vulgares</h1>
-    <p class="lede">La tabla de nombres comunes de tu guía. No siguen reglas: hay que memorizarlos.</p></section>
+  <section class="page-head"><div><p class="eyebrow">Sección 4</p><h1>Nombres vulgares</h1>
+    <p class="lede">La tabla de nombres comunes de tu guía. No siguen reglas: hay que memorizarlos.</p></div>${ptile(4, 'Nv', 'Vulgares')}</section>
   <div class="seg">
     <button data-vt="cards" aria-selected="${vulgTab === 'cards'}">Tarjetas</button>
     <button data-vt="quiz" aria-selected="${vulgTab === 'quiz'}">Quiz</button>
