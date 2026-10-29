@@ -12,7 +12,7 @@ App web para estudiar y practicar nomenclatura de compuestos inorgánicos, basad
 - `src/engine.js`: motor de nomenclatura (iones, reglas de cada sistema, generador de ejercicios, ejercicios de las prácticas).
 - `src/app.js`: interfaz (vistas, tarjetas, práctica).
 - `src/shell.html`: estilos y estructura de la página.
-- `build.py`: junta todo en `index.html`.
+- `build.py`: junta todo en `index.html` (página completa que publica Vercel).
 
 ## Compilar
 ```bash
