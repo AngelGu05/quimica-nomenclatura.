@@ -12,6 +12,9 @@ head = '''<!doctype html>
 <meta name="theme-color" content="#eef2f0" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1614" media="(prefers-color-scheme: dark)">
 <style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<!-- Vercel Web Analytics (se activa en el panel del proyecto) -->
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 '''
