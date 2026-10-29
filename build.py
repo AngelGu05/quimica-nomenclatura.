@@ -3,7 +3,7 @@ import pathlib, sys
 root = pathlib.Path(__file__).parent
 d = root / 'src'
 body = (d / 'shell.html').read_text()
-body = body.replace('/*ENGINE*/', (d / 'engine.js').read_text()).replace('/*APP*/', (d / 'app.js').read_text())
+body = body.replace('/*ENGINE*/', (d / 'engine.js').read_text()).replace('/*FX*/', (d / 'fx.js').read_text()).replace('/*APP*/', (d / 'app.js').read_text())
 head = '''<!doctype html>
 <html lang="es">
 <head>

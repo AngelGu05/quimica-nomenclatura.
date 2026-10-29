@@ -40,7 +40,7 @@
   --r: 10px;
   --ion: #c2551f; --teo: #2a5bd7; --prac: #0e8a7e; --vul: #b0337a; --gold: #c98a06;
   --t1: #2a5bd7; --t2: #1f8a4c; --t3: #8b3fc4;
-  --deco-op: 0.14; --glow: 16%;
+  --deco-op: 0.14; --glow: 16%; --fx-op: 0.5;
   --sec: var(--accent);
 }
 @media (prefers-color-scheme: dark) {
@@ -49,7 +49,7 @@
     --accent: #52c2b4; --accent-ink: #0b1513; --accent-soft: #173733; --cat: #f0a073; --cat-soft: #3a2519;
     --an: #8fb1f2; --an-soft: #1c2840; --good: #73cf8a; --good-soft: #17301f; --bad: #f2928a; --bad-soft: #3a1d1b; --warn: #e6b55c;
     --ion: #f29a68; --teo: #86a8ff; --prac: #4fd0c0; --vul: #f08ac4; --gold: #f2c45a;
-    --t1: #86a8ff; --t2: #6fd492; --t3: #c49bf5; --deco-op: 0.11; --glow: 10%;
+    --t1: #86a8ff; --t2: #6fd492; --t3: #c49bf5; --deco-op: 0.11; --glow: 10%; --fx-op: 0.55;
     color-scheme: dark;
   }
 }
@@ -58,7 +58,7 @@
   --accent: #52c2b4; --accent-ink: #0b1513; --accent-soft: #173733; --cat: #f0a073; --cat-soft: #3a2519;
   --an: #8fb1f2; --an-soft: #1c2840; --good: #73cf8a; --good-soft: #17301f; --bad: #f2928a; --bad-soft: #3a1d1b; --warn: #e6b55c;
   --ion: #f29a68; --teo: #86a8ff; --prac: #4fd0c0; --vul: #f08ac4; --gold: #f2c45a;
-  --t1: #86a8ff; --t2: #6fd492; --t3: #c49bf5; --deco-op: 0.11; --glow: 10%;
+  --t1: #86a8ff; --t2: #6fd492; --t3: #c49bf5; --deco-op: 0.11; --glow: 10%; --fx-op: 0.55;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -291,8 +291,9 @@ body {
     var(--bg);
   background-attachment: fixed;
 }
-.bg-deco { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: var(--deco-op); }
+.bg-deco { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 .top { z-index: 5; }
+.fx-top { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 30; pointer-events: none; }
 main { position: relative; z-index: 1; }
 .nav a[aria-current="page"] { background: var(--sec); }
 .eyebrow { color: var(--sec); }
@@ -328,6 +329,9 @@ main { position: relative; z-index: 1; }
 .tile-head .ptile b { font-size: 1.05rem; }
 .tile-head .ptile i { font-size: 0.55rem; }
 .panel { background: color-mix(in srgb, var(--surface) 92%, transparent); }
+/* interruptor del fondo */
+.switch { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.switch button { min-width: 64px; }
 .how li::marker { color: var(--sec); font-weight: 700; }
 
 /* tarjetas e iones */
@@ -442,24 +446,8 @@ select { font-size: 16px; }
 }
 </style>
 
-<svg class="bg-deco" aria-hidden="true" focusable="false">
-  <defs>
-    <pattern id="chem" width="420" height="420" patternUnits="userSpaceOnUse">
-      <g fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <g stroke="var(--teo)" transform="translate(70 80)"><polygon points="0,-34 29.4,-17 29.4,17 0,34 -29.4,17 -29.4,-17"/><circle r="18"/><line x1="0" y1="-34" x2="0" y2="-54"/><line x1="29.4" y1="17" x2="47" y2="27"/></g>
-        <g transform="translate(300 70)"><line x1="0" y1="0" x2="-30" y2="22" stroke="var(--ink)"/><line x1="0" y1="0" x2="30" y2="22" stroke="var(--ink)"/><circle r="14" fill="var(--ion)" stroke="none"/><circle cx="-30" cy="22" r="9" fill="var(--teo)" stroke="none"/><circle cx="30" cy="22" r="9" fill="var(--teo)" stroke="none"/></g>
-        <g stroke="var(--prac)" transform="translate(220 230)"><path d="M-14,-50 h28 M-10,-50 v34 L-38,36 a6,6 0 0 0 5,9 h66 a6,6 0 0 0 5,-9 L10,-16 v-34"/><path d="M-27,16 h54 L38,36 a6,6 0 0 1 -5,9 h-66 a6,6 0 0 1 -5,-9 Z" fill="var(--prac)" stroke="none" opacity="0.5"/><circle cx="-6" cy="4" r="3"/><circle cx="6" cy="-6" r="2"/></g>
-        <g stroke="var(--vul)" transform="translate(40 250)"><rect width="64" height="70" rx="7"/><text x="8" y="17" fill="var(--vul)" stroke="none" font-family="Spline Sans Mono, monospace" font-size="12">11</text><text x="12" y="52" fill="var(--vul)" stroke="none" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="28">Na</text></g>
-        <g stroke="var(--gold)" transform="translate(350 330)"><ellipse rx="44" ry="15"/><ellipse rx="44" ry="15" transform="rotate(60)"/><ellipse rx="44" ry="15" transform="rotate(-60)"/><circle r="6" fill="var(--gold)" stroke="none"/></g>
-        <g stroke="var(--t3)" transform="translate(150 150)"><line x1="-22" y1="0" x2="22" y2="0"/><line x1="-22" y1="6" x2="22" y2="6"/><circle cx="-26" cy="3" r="10" fill="var(--t3)" stroke="none"/><circle cx="26" cy="3" r="10" fill="var(--t3)" stroke="none"/></g>
-        <g stroke="var(--ion)" transform="translate(360 190)"><rect x="-9" y="-40" width="18" height="70" rx="9"/><path d="M-9,5 h18 v16 a9,9 0 0 1 -18,0 Z" fill="var(--ion)" stroke="none" opacity="0.55"/></g>
-        <g stroke="var(--teo)" transform="translate(140 370)"><rect width="56" height="62" rx="7"/><text x="7" y="16" fill="var(--teo)" stroke="none" font-family="Spline Sans Mono, monospace" font-size="11">17</text><text x="12" y="46" fill="var(--teo)" stroke="none" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="25">Cl</text></g>
-        <g fill="var(--prac)" stroke="none"><circle cx="270" cy="150" r="4"/><circle cx="282" cy="132" r="2.5"/><circle cx="20" cy="160" r="3"/><circle cx="400" cy="20" r="3"/></g>
-      </g>
-    </pattern>
-  </defs>
-  <rect width="100%" height="100%" fill="url(#chem)"/>
-</svg>
+<canvas class="bg-deco" id="bgfx" aria-hidden="true"></canvas>
+<canvas class="fx-top" id="bgfx-top" aria-hidden="true"></canvas>
 <header class="top">
   <div class="top-in">
     <a class="brand" href="#inicio"><span class="brand-tile">Fe</span><span class="brand-name">Nomenclatura</span></a>
@@ -1004,6 +992,164 @@ const PRAC = {
   ],
 };
 
+/* ===== Fondo reactivo: átomos que flotan, se enlazan, siguen el dedo y "reaccionan" ===== */
+const FX = (() => {
+  const cv = document.getElementById('bgfx');
+  const noop = { burst() { }, refresh() { }, setOn() { }, on: false };
+  if (!cv || !cv.getContext) return noop;
+  const ctx = cv.getContext('2d');
+  const top = document.getElementById('bgfx-top'), tctx = top.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const SYMS = [['H', 1], ['O', 8], ['C', 6], ['N', 7], ['Na', 11], ['Cl', 17], ['S', 16], ['Fe', 26], ['Cu', 29], ['Ca', 20], ['K', 19], ['Mg', 12], ['P', 15], ['Al', 13]];
+  let W = 0, H = 0, dpr = 1, parts = [], sparks = [], waves = [], bubbles = [];
+  let col = {}, raf = 0, last = 0, lastScroll = scrollY;
+  const ptr = { x: -9999, y: -9999, on: false };
+  let on = true;
+  try { on = localStorage.getItem('nomenclatura-fondo') !== 'off'; } catch (e) { }
+
+  function readColors() {
+    const cs = getComputedStyle(document.body), g = n => cs.getPropertyValue(n).trim();
+    col = { list: ['--teo', '--ion', '--prac', '--vul', '--gold', '--t2', '--t3'].map(g), sec: g('--sec') || g('--accent'), good: g('--good'), bad: g('--bad'), ink: g('--ink'),
+      alpha: parseFloat(g('--fx-op')) || 0.5 };
+    parts.forEach(p => { p.color = col.list[p.ci % col.list.length]; });
+  }
+  function make(x, y) {
+    const [sym, z] = SYMS[Math.floor(Math.random() * SYMS.length)];
+    const a = Math.random() * Math.PI * 2, sp = 8 + Math.random() * 14;
+    const ci = Math.floor(Math.random() * 7);
+    return { x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, r: 12 + Math.random() * 8 + (sym.length > 1 ? 2 : 0), sym, z, ci, color: col.list[ci], glow: 0 };
+  }
+  function resize() {
+    W = innerWidth; H = innerHeight; dpr = Math.min(2, devicePixelRatio || 1);
+    for (const [c, x] of [[cv, ctx], [top, tctx]]) { c.width = W * dpr; c.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0); }
+    const n = Math.round(Math.max(16, Math.min(44, (W * H) / 24000)));
+    while (parts.length < n) parts.push(make(Math.random() * W, Math.random() * H));
+    parts.length = n;
+  }
+  function burst(x, y, kind) {
+    if (!on || reduce) return;
+    const c = kind === 'good' ? col.good : kind === 'bad' ? col.bad : kind || col.list[Math.floor(Math.random() * col.list.length)];
+    const big = kind !== 'bad';
+    const n = big ? 22 : 10;
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2 + Math.random() * 0.4, sp = (big ? 160 : 90) + Math.random() * 180;
+      sparks.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 0.9 + Math.random() * 0.4, t: 0, c: Math.random() < 0.6 ? c : col.list[Math.floor(Math.random() * 7)], r: 2 + Math.random() * 2.5 });
+    }
+    waves.push({ x, y, t: 0, life: 0.8, c, max: big ? 150 : 80 });
+    if (big) for (let i = 0; i < 7; i++) bubbles.push({ x: x + (Math.random() - 0.5) * 60, y, vy: -(40 + Math.random() * 60), t: 0, life: 1.4 + Math.random() * 0.8, r: 3 + Math.random() * 6, c, w: Math.random() * 6 });
+    for (const p of parts) {
+      const dx = p.x - x, dy = p.y - y, d = Math.hypot(dx, dy) || 1;
+      if (d < 220) { const f = (220 - d) * (big ? 2.4 : 1.2); p.vx += (dx / d) * f; p.vy += (dy / d) * f; p.glow = 1; }
+    }
+    if (!raf) loop(performance.now());
+  }
+  function step(dt) {
+    const sc = scrollY - lastScroll; lastScroll = scrollY;
+    for (const p of parts) {
+      if (sc) p.y -= sc * 0.25;
+      if (ptr.on) {
+        const dx = ptr.x - p.x, dy = ptr.y - p.y, d = Math.hypot(dx, dy) || 1;
+        if (d < 200) {
+          const f = d < 60 ? -260 : 70;
+          p.vx += (dx / d) * f * dt; p.vy += (dy / d) * f * dt;
+          p.vx += (-dy / d) * 40 * dt; p.vy += (dx / d) * 40 * dt; // giran alrededor del dedo
+          p.glow = Math.min(1, p.glow + dt * 3);
+        }
+      }
+      const sp = Math.hypot(p.vx, p.vy);
+      const target = 14;
+      const k = sp > target ? 0.97 : 1.02;
+      p.vx *= Math.pow(k, dt * 60); p.vy *= Math.pow(k, dt * 60);
+      p.x += p.vx * dt; p.y += p.vy * dt;
+      p.glow = Math.max(0, p.glow - dt * 0.8);
+      const m = 40;
+      if (p.x < -m) p.x = W + m; else if (p.x > W + m) p.x = -m;
+      if (p.y < -m) p.y = H + m; else if (p.y > H + m) p.y = -m;
+    }
+    for (const s of sparks) { s.t += dt; s.x += s.vx * dt; s.y += s.vy * dt; s.vx *= 0.94; s.vy = s.vy * 0.94 + 30 * dt; }
+    for (const w of waves) w.t += dt;
+    for (const b of bubbles) { b.t += dt; b.y += b.vy * dt; b.x += Math.sin(b.t * 6 + b.w) * 0.6; }
+    sparks = sparks.filter(s => s.t < s.life); waves = waves.filter(w => w.t < w.life); bubbles = bubbles.filter(b => b.t < b.life);
+  }
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const A = col.alpha;
+    // enlaces
+    ctx.lineWidth = 1.6;
+    for (let i = 0; i < parts.length; i++) for (let j = i + 1; j < parts.length; j++) {
+      const a = parts[i], b = parts[j], dx = a.x - b.x, dy = a.y - b.y, d2 = dx * dx + dy * dy;
+      if (d2 > 130 * 130) continue;
+      const d = Math.sqrt(d2), al = (1 - d / 130) * 0.55 * A * (1 + Math.max(a.glow, b.glow));
+      ctx.strokeStyle = a.color; ctx.globalAlpha = Math.min(1, al);
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      if (d < 70) { // doble enlace
+        const nx = -dy / d * 4, ny = dx / d * 4;
+        ctx.beginPath(); ctx.moveTo(a.x + nx, a.y + ny); ctx.lineTo(b.x + nx, b.y + ny); ctx.stroke();
+      }
+    }
+    // átomos
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for (const p of parts) {
+      const g = p.glow;
+      ctx.globalAlpha = (0.16 + g * 0.2) * A * 1.6;
+      ctx.fillStyle = p.color;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r + g * 5, 0, Math.PI * 2); ctx.fill();
+      ctx.globalAlpha = Math.min(1, (0.6 + g * 0.4) * A * 1.4);
+      ctx.strokeStyle = p.color; ctx.lineWidth = 1.8;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r + g * 5, 0, Math.PI * 2); ctx.stroke();
+      ctx.fillStyle = p.color;
+      ctx.font = `800 ${Math.round(p.r * 0.95)}px 'Bricolage Grotesque', system-ui, sans-serif`;
+      ctx.fillText(p.sym, p.x, p.y + 1);
+    }
+    ctx.globalAlpha = 1;
+  }
+  function drawTop() {
+    const c = tctx;
+    c.clearRect(0, 0, W, H);
+    for (const w of waves) {
+      const k = w.t / w.life;
+      c.globalAlpha = (1 - k) * 0.8; c.strokeStyle = w.c; c.lineWidth = 3 * (1 - k) + 1;
+      c.beginPath(); c.arc(w.x, w.y, 10 + k * w.max, 0, Math.PI * 2); c.stroke();
+    }
+    for (const s of sparks) {
+      c.globalAlpha = 1 - s.t / s.life; c.fillStyle = s.c;
+      c.beginPath(); c.arc(s.x, s.y, s.r, 0, Math.PI * 2); c.fill();
+    }
+    for (const b of bubbles) {
+      c.globalAlpha = (1 - b.t / b.life) * 0.8; c.strokeStyle = b.c; c.lineWidth = 1.5;
+      c.beginPath(); c.arc(b.x, b.y, b.r, 0, Math.PI * 2); c.stroke();
+    }
+    c.globalAlpha = 1;
+  }
+  function loop(t) {
+    const dt = Math.min(0.05, (t - (last || t)) / 1000); last = t;
+    if (on && !document.hidden && !reduce) { step(dt); draw(); drawTop(); raf = requestAnimationFrame(loop); }
+    else { raf = 0; last = 0; }
+  }
+  function start() { if (!raf && on && !reduce) { last = 0; raf = requestAnimationFrame(loop); } }
+  function setOn(v) {
+    on = v; try { localStorage.setItem('nomenclatura-fondo', v ? 'on' : 'off'); } catch (e) { }
+    cv.hidden = top.hidden = !v; if (v) { readColors(); reduce ? draw() : start(); }
+  }
+
+  addEventListener('resize', () => { resize(); if (reduce) draw(); });
+  addEventListener('pointermove', e => { ptr.x = e.clientX; ptr.y = e.clientY; ptr.on = true; }, { passive: true });
+  addEventListener('pointerdown', e => {
+    ptr.x = e.clientX; ptr.y = e.clientY; ptr.on = true;
+    if (!e.target.closest('button, a, input, select, label, textarea, .qcard, .flash, .tile, .grp, .panel, .opt, table, .ion-tile, .chips, .seg, .tabs, .keypad, .nav, .top')) burst(e.clientX, e.clientY);
+  }, { passive: true });
+  addEventListener('pointerup', e => { if (e.pointerType !== 'mouse') ptr.on = false; }, { passive: true });
+  addEventListener('pointercancel', () => { ptr.on = false; });
+  document.addEventListener('mouseleave', () => { ptr.on = false; });
+  document.addEventListener('visibilitychange', start);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', readColors);
+
+  readColors(); resize();
+  cv.hidden = top.hidden = !on;
+  if (on) reduce ? draw() : start();
+  return { burst, refresh: readColors, setOn, get on() { return on; } };
+})();
+
 /* ===== App ===== */
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -1066,6 +1212,7 @@ function route() {
   const h = (location.hash || '#inicio').slice(1);
   const v = VIEWS[h] ? h : 'inicio';
   document.body.dataset.sec = v;
+  FX.refresh();
   $$('.nav a').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + v ? 'page' : 'false'));
   VIEWS[v]();
   window.scrollTo(0, 0);
@@ -1124,8 +1271,10 @@ function viewHome() {
       <li><b>Teoría:</b> lee el patrón de cada sistema (SA, SS, SE, NF, SI) con ejemplos resueltos.</li>
       <li><b>Práctica:</b> elige el tema y si quieres nombrar, formular o ambos. Si te equivocas, la app te explica el paso a paso.</li>
     </ol>
-    <p class="muted small">Tu progreso se guarda solo en este dispositivo y navegador.</p>
+    <p class="muted small">Tu progreso se guarda solo en este dispositivo y navegador. Toca el fondo para provocar una reacción.</p>
+    <div class="switch"><span>Fondo animado</span><button class="btn" id="fx-toggle" aria-pressed="${FX.on}">${FX.on ? 'Sí' : 'No'}</button></div>
   </section>`;
+  $('#fx-toggle').onclick = () => { FX.setOn(!FX.on); viewHome(); };
 }
 
 /* ---------- Tarjetas (componente) ---------- */
@@ -1183,7 +1332,7 @@ function flip() { fc.flipped = !fc.flipped; const el = $('#flash'); if (el) el.c
 function answerCard(ok) {
   const card = fc.queue.shift();
   store.cards[card.id] = ok ? 1 : 0; save();
-  if (ok) fc.done++;
+  if (ok) { fc.done++; const r = $('#flash')?.getBoundingClientRect(); if (r) FX.burst(r.left + r.width / 2, r.top + r.height / 2, 'good'); }
   else { fc.wrong.add(card.id); fc.queue.splice(Math.min(3, fc.queue.length), 0, card); }
   fc.flipped = false; delete card._d;
   renderCard(); refreshDeckChips && refreshDeckChips();
@@ -1575,6 +1724,7 @@ function renderQuestion() {
     else { const r = checkFormula(q.c, val); okMain = r.ok; err = r.err || ''; }
     const okGroup = chosen === q.c.type;
     const ok = okMain && okGroup;
+    { const r = $('#check').getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, ok ? 'good' : 'bad'); }
     q.done = true; q.answer = val; q.ok = ok; q.okMain = okMain; q.okGroup = okGroup; q.chosen = chosen;
     if (ok) sess.score++;
     sess.results.push(q);
@@ -1632,6 +1782,7 @@ function renderResults() {
     <span class="mark" aria-label="${q.ok ? 'correcta' : 'incorrecta'}">${q.ok ? '✓' : '✗'}</span>
     <span class="res-f">${fmtF(q.c.formula)}</span>
     <span class="res-n"><span class="sys-tag">${q.sys}</span> ${esc(cap(canonical(q.c, q.sys)))}<small>${TYPE_LABEL[q.c.type]}</small></span></li>`).join('')}</ul>`;
+  if (p >= 70) [0, 250, 500].forEach((t, i) => setTimeout(() => FX.burst(innerWidth * (0.25 + 0.25 * i), innerHeight * 0.35), t));
   const r = $('#redo'); if (r) r.onclick = () => startSession(shuffle(wrong.map(q => ({ c: q.c, sys: q.sys, mode: q.mode, prac: q.prac }))));
   $('#again').onclick = () => startSession(buildQuestions(pracCfg));
   $('#change').onclick = () => { sess = null; renderSetup(); };
@@ -1680,6 +1831,7 @@ function renderVQ() {
     if (vq.answered) return; vq.answered = true;
     const ok = opts[+b.dataset.i][0] === f;
     if (ok) vq.score++;
+    { const r = b.getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, ok ? 'good' : 'bad'); }
     store.vulg.tot++; if (ok) store.vulg.ok++;
     store.cards['v:' + f] = ok ? 1 : 0; save();
     $$('.mc-opt', st).forEach((x, i) => { if (opts[i][0] === f) x.classList.add('right'); else if (x === b) x.classList.add('wrong'); });

@@ -30,7 +30,7 @@
   --r: 10px;
   --ion: #c2551f; --teo: #2a5bd7; --prac: #0e8a7e; --vul: #b0337a; --gold: #c98a06;
   --t1: #2a5bd7; --t2: #1f8a4c; --t3: #8b3fc4;
-  --deco-op: 0.14; --glow: 16%;
+  --deco-op: 0.14; --glow: 16%; --fx-op: 0.5;
   --sec: var(--accent);
 }
 @media (prefers-color-scheme: dark) {
@@ -39,7 +39,7 @@
     --accent: #52c2b4; --accent-ink: #0b1513; --accent-soft: #173733; --cat: #f0a073; --cat-soft: #3a2519;
     --an: #8fb1f2; --an-soft: #1c2840; --good: #73cf8a; --good-soft: #17301f; --bad: #f2928a; --bad-soft: #3a1d1b; --warn: #e6b55c;
     --ion: #f29a68; --teo: #86a8ff; --prac: #4fd0c0; --vul: #f08ac4; --gold: #f2c45a;
-    --t1: #86a8ff; --t2: #6fd492; --t3: #c49bf5; --deco-op: 0.11; --glow: 10%;
+    --t1: #86a8ff; --t2: #6fd492; --t3: #c49bf5; --deco-op: 0.11; --glow: 10%; --fx-op: 0.55;
     color-scheme: dark;
   }
 }
@@ -48,7 +48,7 @@
   --accent: #52c2b4; --accent-ink: #0b1513; --accent-soft: #173733; --cat: #f0a073; --cat-soft: #3a2519;
   --an: #8fb1f2; --an-soft: #1c2840; --good: #73cf8a; --good-soft: #17301f; --bad: #f2928a; --bad-soft: #3a1d1b; --warn: #e6b55c;
   --ion: #f29a68; --teo: #86a8ff; --prac: #4fd0c0; --vul: #f08ac4; --gold: #f2c45a;
-  --t1: #86a8ff; --t2: #6fd492; --t3: #c49bf5; --deco-op: 0.11; --glow: 10%;
+  --t1: #86a8ff; --t2: #6fd492; --t3: #c49bf5; --deco-op: 0.11; --glow: 10%; --fx-op: 0.55;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -281,8 +281,9 @@ body {
     var(--bg);
   background-attachment: fixed;
 }
-.bg-deco { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: var(--deco-op); }
+.bg-deco { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 .top { z-index: 5; }
+.fx-top { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 30; pointer-events: none; }
 main { position: relative; z-index: 1; }
 .nav a[aria-current="page"] { background: var(--sec); }
 .eyebrow { color: var(--sec); }
@@ -318,6 +319,9 @@ main { position: relative; z-index: 1; }
 .tile-head .ptile b { font-size: 1.05rem; }
 .tile-head .ptile i { font-size: 0.55rem; }
 .panel { background: color-mix(in srgb, var(--surface) 92%, transparent); }
+/* interruptor del fondo */
+.switch { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.switch button { min-width: 64px; }
 .how li::marker { color: var(--sec); font-weight: 700; }
 
 /* tarjetas e iones */
@@ -432,24 +436,8 @@ select { font-size: 16px; }
 }
 </style>
 
-<svg class="bg-deco" aria-hidden="true" focusable="false">
-  <defs>
-    <pattern id="chem" width="420" height="420" patternUnits="userSpaceOnUse">
-      <g fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <g stroke="var(--teo)" transform="translate(70 80)"><polygon points="0,-34 29.4,-17 29.4,17 0,34 -29.4,17 -29.4,-17"/><circle r="18"/><line x1="0" y1="-34" x2="0" y2="-54"/><line x1="29.4" y1="17" x2="47" y2="27"/></g>
-        <g transform="translate(300 70)"><line x1="0" y1="0" x2="-30" y2="22" stroke="var(--ink)"/><line x1="0" y1="0" x2="30" y2="22" stroke="var(--ink)"/><circle r="14" fill="var(--ion)" stroke="none"/><circle cx="-30" cy="22" r="9" fill="var(--teo)" stroke="none"/><circle cx="30" cy="22" r="9" fill="var(--teo)" stroke="none"/></g>
-        <g stroke="var(--prac)" transform="translate(220 230)"><path d="M-14,-50 h28 M-10,-50 v34 L-38,36 a6,6 0 0 0 5,9 h66 a6,6 0 0 0 5,-9 L10,-16 v-34"/><path d="M-27,16 h54 L38,36 a6,6 0 0 1 -5,9 h-66 a6,6 0 0 1 -5,-9 Z" fill="var(--prac)" stroke="none" opacity="0.5"/><circle cx="-6" cy="4" r="3"/><circle cx="6" cy="-6" r="2"/></g>
-        <g stroke="var(--vul)" transform="translate(40 250)"><rect width="64" height="70" rx="7"/><text x="8" y="17" fill="var(--vul)" stroke="none" font-family="Spline Sans Mono, monospace" font-size="12">11</text><text x="12" y="52" fill="var(--vul)" stroke="none" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="28">Na</text></g>
-        <g stroke="var(--gold)" transform="translate(350 330)"><ellipse rx="44" ry="15"/><ellipse rx="44" ry="15" transform="rotate(60)"/><ellipse rx="44" ry="15" transform="rotate(-60)"/><circle r="6" fill="var(--gold)" stroke="none"/></g>
-        <g stroke="var(--t3)" transform="translate(150 150)"><line x1="-22" y1="0" x2="22" y2="0"/><line x1="-22" y1="6" x2="22" y2="6"/><circle cx="-26" cy="3" r="10" fill="var(--t3)" stroke="none"/><circle cx="26" cy="3" r="10" fill="var(--t3)" stroke="none"/></g>
-        <g stroke="var(--ion)" transform="translate(360 190)"><rect x="-9" y="-40" width="18" height="70" rx="9"/><path d="M-9,5 h18 v16 a9,9 0 0 1 -18,0 Z" fill="var(--ion)" stroke="none" opacity="0.55"/></g>
-        <g stroke="var(--teo)" transform="translate(140 370)"><rect width="56" height="62" rx="7"/><text x="7" y="16" fill="var(--teo)" stroke="none" font-family="Spline Sans Mono, monospace" font-size="11">17</text><text x="12" y="46" fill="var(--teo)" stroke="none" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="25">Cl</text></g>
-        <g fill="var(--prac)" stroke="none"><circle cx="270" cy="150" r="4"/><circle cx="282" cy="132" r="2.5"/><circle cx="20" cy="160" r="3"/><circle cx="400" cy="20" r="3"/></g>
-      </g>
-    </pattern>
-  </defs>
-  <rect width="100%" height="100%" fill="url(#chem)"/>
-</svg>
+<canvas class="bg-deco" id="bgfx" aria-hidden="true"></canvas>
+<canvas class="fx-top" id="bgfx-top" aria-hidden="true"></canvas>
 <header class="top">
   <div class="top-in">
     <a class="brand" href="#inicio"><span class="brand-tile">Fe</span><span class="brand-name">Nomenclatura</span></a>
@@ -461,5 +449,6 @@ select { font-size: 16px; }
 <main id="view"></main>
 <script>
 /*ENGINE*/
+/*FX*/
 /*APP*/
 </script>

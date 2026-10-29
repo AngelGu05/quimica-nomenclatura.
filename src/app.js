@@ -60,6 +60,7 @@ function route() {
   const h = (location.hash || '#inicio').slice(1);
   const v = VIEWS[h] ? h : 'inicio';
   document.body.dataset.sec = v;
+  FX.refresh();
   $$('.nav a').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + v ? 'page' : 'false'));
   VIEWS[v]();
   window.scrollTo(0, 0);
@@ -118,8 +119,10 @@ function viewHome() {
       <li><b>Teoría:</b> lee el patrón de cada sistema (SA, SS, SE, NF, SI) con ejemplos resueltos.</li>
       <li><b>Práctica:</b> elige el tema y si quieres nombrar, formular o ambos. Si te equivocas, la app te explica el paso a paso.</li>
     </ol>
-    <p class="muted small">Tu progreso se guarda solo en este dispositivo y navegador.</p>
+    <p class="muted small">Tu progreso se guarda solo en este dispositivo y navegador. Toca el fondo para provocar una reacción.</p>
+    <div class="switch"><span>Fondo animado</span><button class="btn" id="fx-toggle" aria-pressed="${FX.on}">${FX.on ? 'Sí' : 'No'}</button></div>
   </section>`;
+  $('#fx-toggle').onclick = () => { FX.setOn(!FX.on); viewHome(); };
 }
 
 /* ---------- Tarjetas (componente) ---------- */
@@ -177,7 +180,7 @@ function flip() { fc.flipped = !fc.flipped; const el = $('#flash'); if (el) el.c
 function answerCard(ok) {
   const card = fc.queue.shift();
   store.cards[card.id] = ok ? 1 : 0; save();
-  if (ok) fc.done++;
+  if (ok) { fc.done++; const r = $('#flash')?.getBoundingClientRect(); if (r) FX.burst(r.left + r.width / 2, r.top + r.height / 2, 'good'); }
   else { fc.wrong.add(card.id); fc.queue.splice(Math.min(3, fc.queue.length), 0, card); }
   fc.flipped = false; delete card._d;
   renderCard(); refreshDeckChips && refreshDeckChips();
@@ -569,6 +572,7 @@ function renderQuestion() {
     else { const r = checkFormula(q.c, val); okMain = r.ok; err = r.err || ''; }
     const okGroup = chosen === q.c.type;
     const ok = okMain && okGroup;
+    { const r = $('#check').getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, ok ? 'good' : 'bad'); }
     q.done = true; q.answer = val; q.ok = ok; q.okMain = okMain; q.okGroup = okGroup; q.chosen = chosen;
     if (ok) sess.score++;
     sess.results.push(q);
@@ -626,6 +630,7 @@ function renderResults() {
     <span class="mark" aria-label="${q.ok ? 'correcta' : 'incorrecta'}">${q.ok ? '✓' : '✗'}</span>
     <span class="res-f">${fmtF(q.c.formula)}</span>
     <span class="res-n"><span class="sys-tag">${q.sys}</span> ${esc(cap(canonical(q.c, q.sys)))}<small>${TYPE_LABEL[q.c.type]}</small></span></li>`).join('')}</ul>`;
+  if (p >= 70) [0, 250, 500].forEach((t, i) => setTimeout(() => FX.burst(innerWidth * (0.25 + 0.25 * i), innerHeight * 0.35), t));
   const r = $('#redo'); if (r) r.onclick = () => startSession(shuffle(wrong.map(q => ({ c: q.c, sys: q.sys, mode: q.mode, prac: q.prac }))));
   $('#again').onclick = () => startSession(buildQuestions(pracCfg));
   $('#change').onclick = () => { sess = null; renderSetup(); };
@@ -674,6 +679,7 @@ function renderVQ() {
     if (vq.answered) return; vq.answered = true;
     const ok = opts[+b.dataset.i][0] === f;
     if (ok) vq.score++;
+    { const r = b.getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, ok ? 'good' : 'bad'); }
     store.vulg.tot++; if (ok) store.vulg.ok++;
     store.cards['v:' + f] = ok ? 1 : 0; save();
     $$('.mc-opt', st).forEach((x, i) => { if (opts[i][0] === f) x.classList.add('right'); else if (x === b) x.classList.add('wrong'); });
