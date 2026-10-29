@@ -292,7 +292,7 @@ function theoryBasics() {
   </section>
   <section class="grp">
     <h3>Sistemas de nomenclatura</h3>
-    <div class="tbl-wrap"><table class="sys">
+    <div class="tbl-wrap"><table class="sys four">
       <thead><tr><th>Sigla</th><th>Sistema</th><th>Idea clave</th><th>Ejemplo</th></tr></thead>
       <tbody>
         <tr><td><span class="sys-tag">SA</span></td><td>Antiguo o tradicional</td><td>-oso para la carga menor, -ico para la mayor. Con 3 o 4 cargas: hipo-…-oso, -oso, -ico, per-…-ico.</td><td>${fx('FeCl3')} → Cloruro férrico</td></tr>
@@ -648,7 +648,7 @@ function viewVulg() {
   if (vulgTab === 'cards') { refreshDeckChips = null; startDeck(VULG_CARDS, { dir: 'n2s', mount: () => $('#vulg-stage') }); }
   else if (vulgTab === 'list') {
     fc = null;
-    st.innerHTML = `<div class="tbl-wrap"><table class="sys"><thead><tr><th>Nombre común</th><th>Fórmula</th></tr></thead>
+    st.innerHTML = `<div class="tbl-wrap"><table class="sys plain"><thead><tr><th>Nombre común</th><th>Fórmula</th></tr></thead>
       <tbody>${VULG.map(([f, n]) => `<tr><td>${esc(VULG_DISPLAY[f] || cap(n[0]))}</td><td>${fx(f)}</td></tr>`).join('')}</tbody></table></div>`;
   } else { fc = null; if (!vq) vq = { qs: shuffle(VULG).slice(0, 10).map(v => ({ v, dir: Math.random() < 0.5 ? 'n2f' : 'f2n' })), i: 0, score: 0 }; renderVQ(); }
 }
