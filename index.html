@@ -1789,7 +1789,7 @@ function renderResults() {
 }
 
 /* ---------- Nombres vulgares ---------- */
-let vulgTab = 'cards', vq = null;
+let vulgTab = 'cards', vq = null, vulgDir = 'n2s';
 function viewVulg() {
   view().innerHTML = `
   <section class="page-head"><div><p class="eyebrow">Sección 4</p><h1>Nombres vulgares</h1>
@@ -1798,11 +1798,20 @@ function viewVulg() {
     <button data-vt="cards" aria-selected="${vulgTab === 'cards'}">Tarjetas</button>
     <button data-vt="quiz" aria-selected="${vulgTab === 'quiz'}">Quiz</button>
     <button data-vt="list" aria-selected="${vulgTab === 'list'}">Tabla</button></div>
+  ${vulgTab === 'cards' ? `<div class="toolbar"><label class="sel">Dirección
+      <select id="vulg-dir">
+        <option value="n2s">Nombre → fórmula</option><option value="s2n">Fórmula → nombre</option><option value="mix">Mezclado</option>
+      </select></label></div>` : ''}
   <div id="vulg-stage"></div>
   <p class="small muted">Nota: tu guía pone “yeso” junto al CaCO<sub>3</sub>. Aquí se respeta, pero en muchos libros el yeso es CaSO<sub>4</sub>·2H<sub>2</sub>O.</p>`;
   $$('[data-vt]').forEach(b => b.onclick = () => { vulgTab = b.dataset.vt; vq = null; viewVulg(); });
   const st = $('#vulg-stage');
-  if (vulgTab === 'cards') { refreshDeckChips = null; startDeck(VULG_CARDS, { dir: 'n2s', mount: () => $('#vulg-stage') }); }
+  if (vulgTab === 'cards') {
+    refreshDeckChips = null;
+    const ds = $('#vulg-dir'); ds.value = vulgDir;
+    ds.onchange = () => { vulgDir = ds.value; viewVulg(); };
+    startDeck(VULG_CARDS, { dir: vulgDir, mount: () => $('#vulg-stage') });
+  }
   else if (vulgTab === 'list') {
     fc = null;
     st.innerHTML = `<div class="tbl-wrap"><table class="sys plain"><thead><tr><th>Nombre común</th><th>Fórmula</th></tr></thead>
