@@ -19,3 +19,6 @@ App web para estudiar y practicar nomenclatura de compuestos inorgánicos, basad
 python3 build.py
 ```
 Abre `index.html` en el navegador.
+
+## Skill `app-de-estudio`
+En `.claude/skills/app-de-estudio/` está guardado el proceso con el que se hizo esta app, para repetirlo con guías de cualquier materia. Funciona cuando se trabaja con este repo en Claude Code.
