@@ -19,7 +19,8 @@
 Pasos para el estudiante (no hay acceso a Vercel desde la sesión):
 1. Entrar a https://vercel.com con su cuenta de GitHub.
 2. **+ Create New → Project** (en el panel nuevo no dice "Add New"), importar el repo. Si no aparece, ajustar los permisos de la app de GitHub de Vercel.
-3. Nombre del proyecto sin caracteres raros (Vercel no acepta un punto final). Framework Preset: **Other**. Nada más. **Deploy**.
+3. Nombre del proyecto sin caracteres raros (Vercel no acepta un punto final). Framework Preset: **Other**. En **Root Directory** elige la carpeta de la app (por ejemplo `biologia`). **Deploy**.
+4. Cada app es un proyecto distinto en Vercel conectado al mismo repo. Por defecto, cada push vuelve a publicar todos esos proyectos aunque solo cambie una carpeta; no rompe nada, solo hace publicaciones de más.
 
 Desde la sesión no se puede abrir `*.vercel.app` (el proxy lo bloquea): pídele capturas para verificar.
 

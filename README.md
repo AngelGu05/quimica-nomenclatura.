@@ -1,24 +1,10 @@
-# Nomenclatura Química
+# Apps de estudio
 
-App web para estudiar y practicar nomenclatura de compuestos inorgánicos, basada en las guías de clase (2026).
+Apps web para estudiar, hechas a partir de las guías de clase. Cada app vive en su propia carpeta y se publica en Vercel como un proyecto aparte (con su **Root Directory** apuntando a esa carpeta).
 
-## Secciones
-- **Iones:** tarjetas de iones monoatómicos y poliatómicos.
-- **Teoría:** lo básico y los 3 temas (binarios; oxosales, oxoácidos e hidróxidos; sales ácidas, básicas, dobles e hidratadas).
-- **Práctica:** nombrar y formular con ejercicios de las prácticas y ejercicios generados.
-- **Nombres vulgares:** tarjetas, quiz y tabla.
-
-## Estructura
-- `src/engine.js`: motor de nomenclatura (iones, reglas de cada sistema, generador de ejercicios, ejercicios de las prácticas).
-- `src/app.js`: interfaz (vistas, tarjetas, práctica).
-- `src/shell.html`: estilos y estructura de la página.
-- `build.py`: junta todo en `index.html` (página completa que publica Vercel).
-
-## Compilar
-```bash
-python3 build.py
-```
-Abre `index.html` en el navegador.
+| Carpeta | Materia | Link |
+|---|---|---|
+| [`quimica/`](quimica/) | Nomenclatura química | quimica-nomenclatura.vercel.app |
 
 ## Skill `app-de-estudio`
-En `.claude/skills/app-de-estudio/` está guardado el proceso con el que se hizo esta app, para repetirlo con guías de cualquier materia. Funciona cuando se trabaja con este repo en Claude Code.
+En `.claude/skills/app-de-estudio/` está el proceso para crear una app nueva con guías de cualquier materia. Claude Code la usa cuando trabajas con este repo. Cada app nueva va en una carpeta nueva (por ejemplo `biologia/`).

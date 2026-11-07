@@ -60,7 +60,7 @@ Ejecuta el motor en Node con cada ejercicio de las hojas y compara con lo que es
 
 ## 5. Archivos y publicación
 
-Organiza el código así (plantilla de compilación en `assets/build.py`):
+Este repo guarda varias apps, una por carpeta (`quimica/`, `biologia/`…), con la skill en la raíz. Crea la app nueva en su propia carpeta y agrégala a la tabla del `README.md` de la raíz. Dentro de la carpeta, organiza el código así (plantilla de compilación en `assets/build.py`):
 
 ```
 src/shell.html   estilos y estructura (con marcadores /*ENGINE*/ /*FX*/ /*APP*/)
